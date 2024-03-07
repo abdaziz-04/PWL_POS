@@ -35,16 +35,22 @@ class UserController extends Controller
         //     'password' => Hash::make('12345')
         // ];
         // Insert data part 2
-        $data = [
-            'level_id' => 2,
-            'username' => 'manager_tiga',
-            'nama' => 'Manager 3',
-            'password' => Hash::make('12345')
-        ];
-        UserModel::create($data);
+        // $data = [
+        //     'level_id' => 2,
+        //     'username' => 'manager_tiga',
+        //     'nama' => 'Manager ',
+        //     'password' => Hash::make('12345')
+        // ];
+        // UserModel::create($data);
 
         // Coba akses userModel
-        $user = userModel::all(); // Mengambil semua data dari m_user
+        // $user = userModel::all(); // Mengambil semua data dari m_user
+
+        // Find(1)
+        // $user = UserModel::find(1);
+
+        // first
+        $user = UserModel::where('level_id', 1)->first;
         return view('user', ['data' => $user]); // Tampilkan semua data ke view
     }
 }

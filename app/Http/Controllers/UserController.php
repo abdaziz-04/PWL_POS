@@ -19,14 +19,32 @@ class UserController extends Controller
         // ];
         // UserModel::insert($data);
 
-        // Tambah data part 2
+        // // Tambah data part 2
+        // $data = [
+        //     'nama' => 'Pelanggan Pertama',
+        // ];
+        // UserModel::where('username', 'customer-1')->update($data);
+
+
+        // JOBSHEET 4
+        // Insert data
+        // $data = [
+        //     'level_id' => 2,
+        //     'username' => 'manager_dua',
+        //     'nama' => 'Manager 2',
+        //     'password' => Hash::make('12345')
+        // ];
+        // Insert data part 2
         $data = [
-            'nama' => 'Pelanggan Pertama',
+            'level_id' => 2,
+            'username' => 'manager_tiga',
+            'nama' => 'Manager 3',
+            'password' => Hash::make('12345')
         ];
-        UserModel::where('username', 'customer-1')->update($data);
+        UserModel::create($data);
 
         // Coba akses userModel
-        $user = userModel::all(); //Mengambil semua data dari m_user
-        return view('user', ['data' => $user]);
+        $user = userModel::all(); // Mengambil semua data dari m_user
+        return view('user', ['data' => $user]); // Tampilkan semua data ke view
     }
 }

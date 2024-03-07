@@ -50,7 +50,10 @@ class UserController extends Controller
         // $user = UserModel::find(1);
 
         // first
-        $user = UserModel::where('level_id', 1)->first;
+        // $user = UserModel::where('level_id', 1)->first;
+
+        // firstWhere
+        $user = UserModel::firstwhere('level_id', 1);
         return view('user', ['data' => $user]); // Tampilkan semua data ke view
     }
 }

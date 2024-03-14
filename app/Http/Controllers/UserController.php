@@ -108,26 +108,72 @@ class UserController extends Controller
         // $user->isClean(); // True
         // dd($user->isDirty());
 
-        $user = UserModel::firstOrNew(
-            [
-                'username' => 'manager11',
-                'nama' => 'Manager11',
-                'password' => Hash::make('12345'),
-                'level_id' => 2
-            ]
-        );
+        // $user = UserModel::firstOrNew(
+        //     [
+        //         'username' => 'manager11',
+        //         'nama' => 'Manager11',
+        //         'password' => Hash::make('12345'),
+        //         'level_id' => 2
+        //     ]
+        // );
 
-        $user->username = 'manager12';
+        // $user->username = 'manager12';
+
+        // $user->save();
+
+        // $user->wasChanged(); // True
+        // $user->wasChanged('username'); // True
+        // $user->wasChanged(['nama', 'level_id']); // True
+        // $user->wasChanged('nama'); // False
+        // $user->wasChanged(['nama', 'username']); // True
+        // dd($user->wasChanged(['nama', 'username']));
+
+        $user = UserModel::all();
+        return view('user', ['data' => $user]);
+
+        //return view('user', ['data' => $user]); // Tampilkan semua data ke view
+    }
+    public function tambah()
+    {
+        return view('user_tambah');
+    }
+
+    public function tambah_simpan(Request $request)
+    {
+        UserModel::create([
+            'username' => $request->username,
+            'nama' => $request->nama,
+            'password' => Hash::make('$request->password'),
+            'level_id' => $request->level_id
+        ]);
+        return redirect('/user');
+    }
+
+    public function ubah($id)
+    {
+        $user = UserModel::find($id);
+        return view('user_ubah', ['data' => $user]);
+    }
+
+    public function ubah_simpan($id, Request $request)
+    {
+        $user = UserModel::find($id);
+
+        $user->username = $request->username;
+        $user->nama = $request->nama;
+        $user->password = Hash::make('$request->password');
+        $user->level_id = $request->level_id;
 
         $user->save();
 
-        $user->wasChanged(); // True
-        $user->wasChanged('username'); // True
-        $user->wasChanged(['nama', 'level_id']); // True
-        $user->wasChanged('nama'); // False
-        $user->wasChanged(['nama', 'username']); // True
-        dd($user->wasChanged(['nama', 'username']));
+        return redirect('/user');
+    }
 
-        //return view('user', ['data' => $user]); // Tampilkan semua data ke view
+    public function hapus($id)
+    {
+        $user = UserModel::find($id);
+        $user->delete();
+
+        return redirect('/user');
     }
 }

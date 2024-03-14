@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\UserModel;
 use Illuminate\Support\Facades\Hash;
 
+
 class UserController extends Controller
 {
     public function index()
@@ -26,7 +27,7 @@ class UserController extends Controller
         // UserModel::where('username', 'customer-1')->update($data);
 
 
-        // JOBSHEET 4
+        // ! JOBSHEET 4
         // Insert data
         // $data = [
         //     'level_id' => 2,
@@ -53,7 +54,34 @@ class UserController extends Controller
         // $user = UserModel::where('level_id', 1)->first;
 
         // firstWhere
-        $user = UserModel::firstwhere('level_id', 1);
+        // $user = UserModel::firstwhere('level_id', 1);
+
+        // findOr
+        // $user = UserModel::findOr(20, ['username', 'nama'], function () {
+        //     abort(404);
+        // });
+
+        // FindOrFail
+        // $user = UserModel::findOrFail(1);
+
+        // FirstOrFail
+        // $user = UserModel::where('username', 'manager9')->firstOrFail();
+
+        // Count
+        // $user = UserModel::where('level_id', 2)->count();
+
+        // * Retreiving or Creating Models
+        // FirstOrCreate
+        $user = UserModel::firstOrCreate(
+            [
+                'username' => 'manager22',
+                'nama' => 'Manager Dua Dua',
+                'password' => Hash::make('12345'),
+                'level_id' => 2
+            ]
+        );
+
+
         return view('user', ['data' => $user]); // Tampilkan semua data ke view
     }
 }

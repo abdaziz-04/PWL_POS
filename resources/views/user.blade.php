@@ -25,6 +25,16 @@
             <td>{{ $data->level_id }}</td>
         </tr>
         {{-- @endforeach --}}
+
+
+
+        {{-- Ini menampilkan jumlah pengguna dengan count --}}
+        {{-- <tr>
+            <th>Jumlah Pengguna</th>
+        </tr>
+        <tr>
+            <td>{{ $data }}</td>
+        </tr> --}}
     </table>
 </body>
 

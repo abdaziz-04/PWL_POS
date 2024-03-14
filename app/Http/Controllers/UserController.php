@@ -81,32 +81,52 @@ class UserController extends Controller
         //     ]
         // );
 
+        // $user = UserModel::firstOrNew(
+        //     [
+        //         'username' => 'manager55',
+        //         'nama' => 'Manager55',
+        //         'password' => Hash::make('12345'),
+        //         'level_id' => 2
+        //     ]
+        // );
+
+        // $user->username = 'manager56';
+
+        // $user->isDirty(); // True
+        // $user->isDirty('username'); // True
+        // $user->isDirty('nama'); // False
+        // $user->isDirty('nama', 'username'); // True
+
+        // $user->isClean(); // False
+        // $user->isClean('username'); // False
+        // $user->isClean('nama'); // true
+        // $user->isClean('nama', 'username'); // False
+
+        // $user->save();
+
+        // $user->isDirty(); // False
+        // $user->isClean(); // True
+        // dd($user->isDirty());
+
         $user = UserModel::firstOrNew(
             [
-                'username' => 'manager55',
-                'nama' => 'Manager55',
+                'username' => 'manager11',
+                'nama' => 'Manager11',
                 'password' => Hash::make('12345'),
                 'level_id' => 2
             ]
         );
 
-        $user->username = 'manager56';
-
-        $user->isDirty(); // True
-        $user->isDirty('username'); // True
-        $user->isDirty('nama'); // False
-        $user->isDirty('nama', 'username'); // True
-
-        $user->isClean(); // False
-        $user->isClean('username'); // False
-        $user->isClean('nama'); // true
-        $user->isClean('nama', 'username'); // False
+        $user->username = 'manager12';
 
         $user->save();
 
-        $user->isDirty(); // False
-        $user->isClean(); // True
-        dd($user->isDirty());
+        $user->wasChanged(); // True
+        $user->wasChanged('username'); // True
+        $user->wasChanged(['nama', 'level_id']); // True
+        $user->wasChanged('nama'); // False
+        $user->wasChanged(['nama', 'username']); // True
+        dd($user->wasChanged(['nama', 'username']));
 
         //return view('user', ['data' => $user]); // Tampilkan semua data ke view
     }

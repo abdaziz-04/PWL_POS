@@ -8,6 +8,21 @@
 @stop
 @vite('resources/js/app.js')
 {{-- Extend and customize the page content header --}}
+
+@section('sidebar')
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <li class="nav-item">
+            <a href="/kategori" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                    Manage Kategori
+                </p>
+            </a>
+        </li>
+        <!-- Add other sidebar items here -->
+    </ul>
+@stop
+
 @section('content_header')
     @hasSection('content_header_title')
         <h1 class="text-muted">

@@ -9,10 +9,13 @@
     <div class="container">
         <div class="card">
             <div class="card-header">Manage Kategori</div>
+
             <div class="card-body">
                 {{ $dataTable->table() }}
             </div>
+            <a href="/kategori/create" class="btn btn-primary btn-md float-left m-2" style="width: 200px;">Tambah Kategori</a>
         </div>
+
     </div>
 @endsection
 

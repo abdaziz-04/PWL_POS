@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <table border="1" cellPadding="2" cellSpacing="2">
+    <table border="1" cellPadding="2" cellSpacing="2" id="kategori_table">
         <tr>
             <th>ID</th>
             <th>Kode Kategori</th>
@@ -24,5 +24,8 @@
         @endforeach
     </table>
 </body>
+<script>
+    {{ $dataTable->scripts() }}
+</script>
 
 </html>

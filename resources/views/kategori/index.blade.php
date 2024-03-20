@@ -16,6 +16,6 @@
     </div>
 @endsection
 
-@push('script')
+@push('scripts')
     {{ $dataTable->scripts() }}
 @endpush

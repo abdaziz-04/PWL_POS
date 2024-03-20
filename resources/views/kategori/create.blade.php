@@ -19,8 +19,8 @@
                             placeholder="Masukkan Kode Kategori">
                     </div>
                     <div class="form-group">
-                        <label for="namaKategori">Kode Kategori</label>
-                        <input type="text" name="kodeKategori" id="kodeKategori" placeholder="Masukkan Nama Kategori"
+                        <label for="namaKategori">Nama Kategori</label>
+                        <input type="text" name="namaKategori" id="kodeKategori" placeholder="Masukkan Nama Kategori"
                             class="form-control">
                     </div>
                 </div>

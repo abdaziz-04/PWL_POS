@@ -16,7 +16,12 @@ return [
     |
     */
 
+
     'name' => env('APP_NAME', 'Laravel'),
+
+    Yajra\Datatables\DatatablesServiceProvider::class,
+
+    'Datatables' => Yajra\Datatables\Facades\Datatables::class,
 
     /*
     |--------------------------------------------------------------------------

@@ -58,13 +58,18 @@ class KategoriController extends Controller
     {
         $kategori = KategoriModel::find($id);
 
+        if (!$kategori) {
+            return redirect('/kategori')->with('error', 'Kategori tidak ditemukan.');
+        }
+
         $kategori->kategori_kode = $request->kodeKategori;
         $kategori->kategori_nama = $request->namaKategori;
 
         $kategori->save();
 
-        return redirect('/kategori');
+        return redirect('/kategori')->with('success', 'Kategori berhasil diperbarui.');
     }
+
 
     public function delete($id)
     {

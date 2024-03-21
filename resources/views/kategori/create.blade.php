@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('subtitle', 'welcome')
-@section('content_header_title', 'Home')
-@section('content_header_subtitle', 'Welcome')
+@section('content_header_title', 'Category')
+@section('content_header_subtitle', 'Create')
 
 @section('content')
     <div class="container">

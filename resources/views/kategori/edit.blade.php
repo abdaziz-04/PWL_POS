@@ -10,8 +10,9 @@
             <div class="card-header">
                 <h3 class="card-title">Buat Kategori Baru</h3>
             </div>
-
             <form action="../kategori{{ $data->kategori_id }}" method="post">
+                {{ csrf_field() }}
+                {{ method_field('PUT') }}
                 <div class="card-body">
                     <div class="form-group">
                         <label for="kodeKategori">Kode Kategori</label>

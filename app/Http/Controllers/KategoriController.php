@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use DataTables;
 use App\DataTables\KategoriDataTable;
 use App\Models\KategoriModel;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
+
 
 class KategoriController extends Controller
 {
@@ -36,16 +39,35 @@ class KategoriController extends Controller
         // !Jobsheet 5
         return $dataTable->render('kategori.index');
     }
-    public function create()
+    public function create(): View
     {
         return view('kategori.create');
     }
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        KategoriModel::create([
-            'kategori_kode' => $request->kodeKategori,
-            'kategori_nama' => $request->namaKategori,
+        // KategoriModel::create([
+        //     // 'kategori_kode' => $request->kodeKategori,
+        //     // 'kategori_nama' => $request->namaKategori,
+        //     'kategori_kode' => 'required',
+        //     'kategori_nama' => 'required',
+        // ]);
+
+        $validated = $request->validate([
+            'kategori_kode' => 'required',
+            'kategori_nama' => 'required',
         ]);
+
+
+        // Retrive the validated input data
+        $validated = $request->validated();
+
+        // Retrive a portion of the validated input data
+        $validated = $request->safe()->only(['kategori_kode', 'kategori_nama']);
+        $validated = $request->safe()->except(['kategori_kode', 'kategori_nama']);
+
+        // Store the post....
+
+        // The post is valid
         return redirect('/kategori');
     }
     public function edit($id)

@@ -12,10 +12,11 @@ class UserModel extends Model
 {
     use HasFactory;
     protected $table = 'm_user'; // Mendefinisikan nama tabel
+    public $timestamps = false;
     protected $primaryKey = 'user_id'; // Mendefinisikan primary key dari yang digunakan
 
     // ! Jobsheet 4
-    protected $fillable = ['level_id', 'username', 'nama', 'password'];
+    protected $fillable = ['user_id', 'level_id', 'username', 'nama', 'password'];
 
     public function level(): BelongsTo
     {

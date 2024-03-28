@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('m_user', function (Blueprint $table) {
+        Schema::create('useri', function (Blueprint $table) {
             $table->id('user_id');
             $table->unsignedBigInteger('level_id')->index(); //Index untuk ForeignKey
             $table->string('username', 20)->unique(); //Memastikan tidak ada duplikat

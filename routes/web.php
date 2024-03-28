@@ -3,6 +3,7 @@
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\POSController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,6 +38,15 @@ Route::get('/kategori/edit/{id}', [KategoriController::class, 'edit']);
 Route::put('/kategori/{id}', [KategoriController::class, 'update']);
 Route::get('/kategori/delete/{id}', [KategoriController::class, 'delete']);
 
+Route::get('/welcome2', function () {
+    return view('welcome2');
+});
+
+Route::get('/formUser', [UserController::class, 'formUser']);
+Route::get('/formLevel', [UserController::class, 'formLevel']);
+
+// CRUD dengan template
+Route::resource('m_user', POSController::class);
 
 Auth::routes();
 

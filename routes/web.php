@@ -5,6 +5,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\POSController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\SalesController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -51,6 +53,21 @@ Route::resource('m_user', POSController::class);
 
 // JS 7
 Route::get('/', [WelcomeController::class, 'index']);
+Route::get('/sales', [SalesController::class, 'sales']);
+Route::get('/stok', [SalesController::class, 'stock']);
+Route::get('/barang', [ProductController::class, 'index']);
+
+// ! CRUD USER
+Route::group(['prefix' => 'user'], function () {
+    Route::get('/', [UserController::class, 'index']); // Tampil Halaman Awal User
+    Route::post('/list', [UserController::class, 'list']); // Tampil data user (json)
+    Route::get('/create', [UserController::class, 'create']); // Tampil form tambah user
+    Route::post('/', [UserController::class, 'store']); // Simpan data user baru
+    Route::get('/{id}', [UserController::class, 'show']); // Tampil detail user
+    Route::get('/{id}/edit', [UserController::class, 'edit']); // Edit data user
+    Route::put('/{id}', [UserController::class, 'update']); // Simpan perubahan data user
+    Route::delete('/{id}', [UserController::class, 'destroy']); // Hapus data user
+});
 
 Auth::routes();
 

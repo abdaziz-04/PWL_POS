@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts/template')
 @section('title', 'Create Kategori')
 @section('subtitle', 'Kategori')
 @section('content_header_title', 'Kategori')

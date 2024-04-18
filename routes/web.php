@@ -52,9 +52,6 @@ Route::get('/formLevel', [UserController::class, 'formLevel']);
 Route::resource('m_user', POSController::class);
 
 // JS 7
-Route::get('/', [WelcomeController::class, 'index']);
-Route::get('/sales', [SalesController::class, 'sales']);
-Route::get('/stok', [SalesController::class, 'stock']);
 Route::get('/barang', [ProductController::class, 'index']);
 
 // ! CRUD USER

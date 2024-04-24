@@ -6,21 +6,59 @@ use Illuminate\Http\Request;
 
 class SalesController extends Controller
 {
-    public function sales()
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        return view('sales.sales');
+        //
     }
 
-    public function stock()
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
     {
-        $stocks = [
-            ['id' => 1, 'name' => 'Product A', 'quantity' => 10],
-            ['id' => 2, 'name' => 'Product B', 'quantity' => 15],
-            ['id' => 3, 'name' => 'Product C', 'quantity' => 20],
-        ];
+        //
+    }
 
-        return view('sales.stock', [
-            'stocks' => $stocks
-        ]);
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
     }
 }

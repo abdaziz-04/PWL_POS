@@ -14,7 +14,7 @@ class Cek_login
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, $roles): Response
     {
         // Cek sudah login apa belum
         if (!Auth::check()) {
@@ -24,10 +24,10 @@ class Cek_login
         // Simpan data user di variable user
         $user = Auth::user();
 
-        // Jila user memiliki level sesuai kolom pada lanjutkan request
-        // if ($user->level_id == $roles) {
-        //     return $next($request);
-        // }
+        // Jika user memiliki level sesuai kolom pada lanjutkan request
+        if ($user->level_id == $roles) {
+            return $next($request);
+        }
 
         // Jika tidak memiliki akses
         return redirect('login')->with('error', 'Maaf anda tidak memiliki akses');

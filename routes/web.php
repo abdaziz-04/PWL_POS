@@ -7,8 +7,11 @@ use App\Http\Controllers\POSController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ManagerController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,25 +28,23 @@ use Illuminate\Support\Facades\Auth;
 //     return view('welcome');
 // });
 
-Route::get('/level', [LevelController::class, 'index']);
-Route::get('/kategori', [KategoriController::class, 'index']);
-Route::get('/user', [UserController::class, 'index']);
-Route::get('/user/tambah', [UserController::class, 'tambah']);
-Route::post('/user/tambah_simpan', [UserController::class, 'tambah_simpan']);
-Route::get('/user/ubah/{id}', [UserController::class, 'ubah']);
-Route::put('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan']);
-Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
+// Route::get('/level', [LevelController::class, 'index']);
+// Route::get('/kategori', [KategoriController::class, 'index']);
+// Route::get('/user', [UserController::class, 'index']);
+// Route::get('/user/tambah', [UserController::class, 'tambah']);
+// Route::post('/user/tambah_simpan', [UserController::class, 'tambah_simpan']);
+// Route::get('/user/ubah/{id}', [UserController::class, 'ubah']);
+// Route::put('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan']);
+// Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
 
 
-Route::get('/kategori/create', [KategoriController::class, 'create']);
-Route::post('/kategori', [KategoriController::class, 'store']);
-Route::get('/kategori/edit/{id}', [KategoriController::class, 'edit']);
-Route::put('/kategori/{id}', [KategoriController::class, 'update']);
-Route::get('/kategori/delete/{id}', [KategoriController::class, 'delete']);
+// Route::get('/kategori/create', [KategoriController::class, 'create']);
+// Route::post('/kategori', [KategoriController::class, 'store']);
+// Route::get('/kategori/edit/{id}', [KategoriController::class, 'edit']);
+// Route::put('/kategori/{id}', [KategoriController::class, 'update']);
+// Route::get('/kategori/delete/{id}', [KategoriController::class, 'delete']);
 
-Route::get('/welcome2', function () {
-    return view('welcome2');
-});
+Route::get('/', [WelcomeController::class, 'index']);
 
 Route::get('/formUser', [UserController::class, 'formUser']);
 Route::get('/formLevel', [UserController::class, 'formLevel']);
@@ -51,8 +52,17 @@ Route::get('/formLevel', [UserController::class, 'formLevel']);
 // CRUD dengan template
 Route::resource('m_user', POSController::class);
 
-// JS 7
-Route::get('/barang', [ProductController::class, 'index']);
+// CRUD BARANG
+Route::group(['prefix' => 'barang'], function () {
+    Route::get('/', [ProductController::class, 'index']);
+    Route::post('/list', [ProductController::class, 'list']);
+    Route::get('/create', [ProductController::class, 'create']);
+    Route::post('/', [ProductController::class, 'store']);
+    Route::get('/{id}', [ProductController::class, 'show']);
+    Route::get('/{id}/edit', [ProductController::class, 'edit']);
+    Route::put('/{id}', [ProductController::class, 'update']);
+    Route::delete('/{id}', [ProductController::class, 'destroy']);
+});
 
 // ! CRUD USER
 Route::group(['prefix' => 'user'], function () {
@@ -64,8 +74,81 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/{id}/edit', [UserController::class, 'edit']); // Edit data user
     Route::put('/{id}', [UserController::class, 'update']); // Simpan perubahan data user
     Route::delete('/{id}', [UserController::class, 'destroy']); // Hapus data user
+    Route::get('/test', [UserController::class, 'db_test']);
 });
 
-Auth::routes();
+// CRUD KATEGORI
+Route::group(['prefix' => 'kategori'], function () {
+    Route::get('/', [KategoriController::class, 'index']);
+    Route::post('/list', [KategoriController::class, 'list']);
+    Route::get('/create', [KategoriController::class, 'create']);
+    Route::post('/', [KategoriController::class, 'store']);
+    Route::get('/{id}', [KategoriController::class, 'show']);
+    Route::get('/{id}/edit', [KategoriController::class, 'edit']);
+    Route::put('/{id}', [KategoriController::class, 'update']);
+    Route::delete('/{id}', [KategoriController::class, 'destroy']);
+});
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// CRUD Level User
+Route::group(['prefix' => 'level'], function () {
+    Route::get('/', [LevelController::class, 'index']);
+    Route::post('/list', [LevelController::class, 'list']);
+    Route::get('/create', [LevelController::class, 'create']);
+    Route::post('/', [LevelController::class, 'store']);
+    Route::get('/{id}', [LevelController::class, 'show']);
+    Route::get('/{id}/edit', [LevelController::class, 'edit']);
+    Route::put('/{id}', [LevelController::class, 'update']);
+    Route::delete('/{id}', [LevelController::class, 'destroy']);
+});
+
+Route::get('/test-db', [LevelController::class, 'testDatabaseConnection']);
+
+
+// CRUD Stok
+Route::group(['prefix' => 'stok'], function () {
+    Route::get('/', [StokController::class, 'index']);
+    Route::post('/list', [StokController::class, 'list']);
+    Route::get('/create', [StokController::class, 'create']);
+    Route::post('/', [StokController::class, 'store']);
+    Route::get('/{id}', [StokController::class, 'show']);
+    Route::get('/{id}/edit', [StokController::class, 'edit']);
+    Route::put('/{id}', [StokController::class, 'update']);
+    Route::delete('/{id}', [StokController::class, 'destroy']);
+});
+
+// CRUD Sales
+Route::group(['prefix' => 'sales'], function () {
+    Route::get('/', [SalesController::class, 'index']);
+    Route::post('/list', [SalesController::class, 'list']);
+    Route::get('/create', [SalesController::class, 'create']);
+    Route::post('/', [SalesController::class, 'store']);
+    Route::get('/{id}', [SalesController::class, 'show']);
+    Route::get('/{id}/edit', [SalesController::class, 'edit']);
+    Route::put('/{id}', [SalesController::class, 'update']);
+    Route::delete('/{id}', [SalesController::class, 'destroy']);
+});
+
+// JS 9
+Route::get('login', [AuthController::class, 'index'])->name('login');
+Route::get('register', [AuthController::class, 'register'])->name('register');
+Route::post('proses_login', [AuthController::class, 'proses_login'])->name('proses_login');
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('proses_register', [AuthController::class, 'proses_register'])->name('proses_register');
+
+// kita atur juga untuk middleware menggunakan group pada routing
+// didalamnya terdapat group untuk mengecek kondisi login
+// jika user yang login merupakan admin maka akan diarahkan ke AdminController
+// jika user yang login merupakan manager maka akan diarahkan ke UserController
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::group(['middleware' => ['cek_login:1']], function () {
+        Route::resource('admin', AdminController::class);
+    });
+    Route::group(['middleware' => ['cek_login:2']], function () {
+        Route::resource('manager', ManagerController::class);
+    });
+});
+
+// Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

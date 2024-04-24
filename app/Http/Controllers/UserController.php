@@ -11,6 +11,21 @@ use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
+
+    public function db_test(Request $request)
+{
+    // Select only necessary columns
+    $users = UserModel::select('user_id', 'username', 'nama', 'level_id')->with('level');
+
+    // Filter data user based on level_id
+    if ($request->level_id) {
+        $users->where('level_id', $request->level_id);
+    }
+
+    return $users->get(); // Return the result directly
+}
+
+
     // Tampil halaman awal user
     public function index()
     {

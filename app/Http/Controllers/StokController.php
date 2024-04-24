@@ -3,28 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\KategoriModel;
 
-class KategoriController extends Controller
+class StokController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $breadcrumb = (object) [
-            'title' => 'Kategori Barang',
-            'list' => ['Home', 'Kategori']
-        ];
-
-        $page = (object) [
-            'title' => 'Kategori Barang'
-        ];
-
-        $activeMenu = 'kategori'; // Set menu yang sedang aktif
-
-        $level = KategoriModel::all();     // Ambil data level untuk filter level
-        return view('kategori.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'activeMenu' => $activeMenu]);
+        //
     }
 
     /**

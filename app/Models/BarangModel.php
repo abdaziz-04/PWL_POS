@@ -14,7 +14,7 @@ class BarangModel extends Model
 
     protected $fillable = ['barang_id', 'barang_kode', 'barang_nama', 'harga_jual'];
 
-    public function level(): BelongsTo
+    public function kategori(): BelongsTo
     {
         return $this->belongsTo(KategoriModel::class, 'kategori_id', 'kategori_id');
     }

@@ -87,6 +87,7 @@ Route::group(['prefix' => 'kategori'], function () {
     Route::get('/{id}/edit', [KategoriController::class, 'edit']);
     Route::put('/{id}', [KategoriController::class, 'update']);
     Route::delete('/{id}', [KategoriController::class, 'destroy']);
+    Route::get('/test', [KategoriController::class, 'tesDB']);
 });
 
 // CRUD Level User

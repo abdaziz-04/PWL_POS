@@ -117,7 +117,7 @@ class SalesController extends Controller
 
         $activeMenu = 'penjualan';
 
-        return view('transaksi.show', [
+        return view('sales.show', [
             'breadcrumb' => $breadcrumb,
             'page'       => $page,
             'penjualan' => $penjualan,
@@ -145,7 +145,7 @@ class SalesController extends Controller
 
         $activeMenu = 'penjualan';
 
-        return view('transaksi.edit', [
+        return view('sales.edit', [
             'penjualan' => $penjualan,
             'detailPenjualan' => $detailPenjualan,
             'user' => $user,

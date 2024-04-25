@@ -50,7 +50,7 @@
             @endforeach
         </table>
         @endif
-        <a href="{{ url('penjualan') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
+        <a href="{{ url('sales') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
     </div>
 </div>
 @endsection

@@ -37,6 +37,8 @@ class StokController extends Controller
         if ($request->stok_id) {
             $stok->where('stok_id', $request->stok_id);
         }
+
+
         return DataTables::of($stok)
             ->addIndexColumn()
             ->addColumn('aksi', function ($stok) {

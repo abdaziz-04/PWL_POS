@@ -23,7 +23,7 @@
                             <select class="form-control" id="stok_id" name="stok_id" required>
                                 <option value="">- Semua -</option>
                                 @foreach($stok as $item)
-                                    <option value="{{ $item->stok_id }}">{{ $item->barang_id }}</option>
+                                    <option value="{{ $item->stok_id }}">{{ $item->barang_nama }}</option>
                                 @endforeach
                             </select>
                             <small class="Form-text text-muted">Stok</small>
@@ -34,11 +34,11 @@
             <table class="table table-bordered table-striped table-hover table-sm" id="table_stok">
                 <thead>
                     <tr>
-                        <th>stok_id</th>
-                        <th>Barang_id</th>
-                        <th>User_id</th>
-                        <th>stok_tanggal</th>
-                        <th>stok_jumlah</th>
+                        <th>Id Stok</th>
+                        <th>Nama Barang</th>
+                        <th>Id User</th>
+                        <th>Stok Tanggal</th>
+                        <th>Stok Jumlah</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -71,7 +71,7 @@
                         searchable: false
                     },
                     {
-                        data: "barang_id",
+                        data: "barang.barang_nama",
                         className: "",
                         orderable: true,
                         searchable: true

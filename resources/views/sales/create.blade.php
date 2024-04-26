@@ -19,7 +19,7 @@
                 </div>
             @endif
 
-            <form method="post" action="{{ url('penjualan') }}">
+            <form method="post" action="{{ url('sales') }}">
                 @csrf
                 <div class="form-group">
                     <label for="user_id">User</label>

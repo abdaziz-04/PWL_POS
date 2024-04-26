@@ -130,7 +130,7 @@ class StokController extends Controller
 
     public function show(string $id)
     {
-        $stok = StokModel::find($id);
+        $stok = StokModel::with('barang')->find($id);
 
         $breadcrumb = (object) [
             'title' => 'Detail stok',
@@ -145,6 +145,8 @@ class StokController extends Controller
 
         return view('stok.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'stok' => $stok, 'activeMenu' => $activeMenu]);
     }
+
+
     public function destroy(string $id)
     {
         $check = StokModel::find($id);
@@ -157,7 +159,6 @@ class StokController extends Controller
 
             return redirect('/stok')->with('seccess', 'Data berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) {
-
             return redirect('/stok')->with('error', 'Data gagal dihapus karena masih terdapat tabel lain yang terkai dengan data ini');
         }
     }

@@ -103,7 +103,7 @@ class ProductController extends Controller
 
         $breadcrumb = (object) [
             'title' => 'Detail Barang',
-            'list' => ['Home', 'Baranf', 'Detail']
+            'list' => ['Home', 'Barang', 'Detail']
         ];
 
         $page = (object) [

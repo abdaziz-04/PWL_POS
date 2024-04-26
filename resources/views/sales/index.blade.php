@@ -15,22 +15,6 @@
             @if (session('error'))
                 <div class="alert alert-denger">{{ session('error')}}</div>
             @endif
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group row">
-                        <label class="col-1 control-label col-form-label">Filter:</label>
-                        <div class="col-3">
-                            <select class="form-control" id="user_id" name="user_id" required>
-                                <option value="">- Semua -</option>
-                                @foreach($user as $item)
-                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                @endforeach
-                            </select>
-                            <small class="Form-text text-muted">Nama User</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <table class="table table-bordered table-striped table-hover table-sm" id="table_penjualan">
                 <thead>
                     <tr>

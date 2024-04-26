@@ -62,7 +62,7 @@ class SalesController extends Controller
         $user = UserModel::all();
         $barang = BarangModel::all();
         $activeMenu = 'penjualan';
-        return view('transaksi.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'barang' => $barang, 'activeMenu' => $activeMenu]);
+        return view('sales.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'barang' => $barang, 'activeMenu' => $activeMenu]);
     }
 
     public function store(Request $request)

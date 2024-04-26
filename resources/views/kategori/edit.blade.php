@@ -20,6 +20,15 @@
             {!! method_field('PUT') !!} <!-- tambahkan baris ini untuk proses edit yang membutuhkan method PUT -->
 
             <div class="form-group row">
+                <label class="col-1 control-label col-form-label">ID Kategori</label>
+                <div class="col-11">
+                    <input type="text" class="form-control" id="kategori_id" name="kategori_id" value="{{ old('kategori_id', $kategori->kategori_id) }}" required>
+                    @error('kategori_id')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group row">
                 <label class="col-1 control-label col-form-label">kode Kategori</label>
                 <div class="col-11">
                     <input type="text" class="form-control" id="kategori_kode" name="kategori_kode" value="{{ old('kategori_kode', $kategori->kategori_kode) }}" required>

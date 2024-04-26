@@ -15,11 +15,15 @@
             @else
                 <table class="table table-bordered table-striped table-hover table-sm">
                     <tr>
-                        <th>ID_Barang</th>
+                        <th>Nama Barang</th>
+                        <td>{{ $stok->barang->barang_nama }}</td>
+                    </tr>
+                    <tr>
+                        <th>ID Barang</th>
                         <td>{{ $stok->barang_id }}</td>
                     </tr>
                     <tr>
-                        <th> ID_User</th>
+                        <th> ID User</th>
                         <td>{{ $stok->user_id }}</td>
                     </tr>
                     <tr>

@@ -11,11 +11,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class UserModel extends Authenticatable
 {
-    use HasFactory;
+    public function getJWTIdentifier() {
+        return $this->getKey();
+    }
+    public function getJWTCustoClaims() {
+        return [];
+    }
 
     protected $table = "m_user";
-    public $timestamps = false;
     protected $primaryKey = 'user_id';
+    public $timestamps = false;
     protected $fillable = [
         'user_id',
         'level_id',

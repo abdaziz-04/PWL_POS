@@ -31,13 +31,12 @@
         </div>
     @enderror
 
-    <form action="{{ url('proses_login') }}" method="post">
+    <form action="/login" method="post">
         @csrf
 
         {{-- username field --}}
         <div class="input-group mb-3">
-            <input type="text" name="username" class="form-control @error('username') is-invalid @enderror"
-                value="{{ old('username') }}" placeholder="Username" autofocus>
+            <input type="text" name="username" class="form-control" id="username" placeholder="Username" autofocus>
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="fa fa-envelope {{ config('adminlte.classes_auth_icon', '') }}"></span>

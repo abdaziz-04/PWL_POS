@@ -25,10 +25,10 @@ class RegisterController extends Controller
 
         // Create User
         $user = UserModel::create([
-            'username' => 'required',
-            'nama' => 'required',
-            'password' => 'required|min:5|confirmed',
-            'level_id' => 'required',
+            'username' => $request->input('username'),
+            'nama' => $request->input('nama'),
+            'password' => bcrypt($request->input('password')),
+            'level_id' => $request->input('level_id'),
         ]);
 
         // Return response JSON is created

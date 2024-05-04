@@ -14,7 +14,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class UserModel extends Authenticatable implements JWTSubject
 {
     public function getJWTIdentifier() {
-        return $this->getKey();
+        return $this->getKey;
     }
     public function getJWTCustomClaims() {
         return [];

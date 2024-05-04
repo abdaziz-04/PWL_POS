@@ -6,6 +6,9 @@ use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\LogoutController;
 use App\Http\Controllers\Api\LevelController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\BarangController;
+use App\Http\Controllers\Api\KategoriController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +30,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // CRUD LEVEL
 Route::resource('levels', LevelController::class); // Saya menggunakan Route::resource agar mempersingkat penulisan kode
+
+// !Tugas
+Route::resource('users', UserController::class);
+
+Route::resource('barang', BarangController::class);
+Route::resource('kategori', KategoriController::class);

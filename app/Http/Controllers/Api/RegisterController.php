@@ -16,6 +16,7 @@ class RegisterController extends Controller
             'nama' => 'required',
             'password' => 'required|min:5|confirmed',
             'level_id' => 'required',
+            'image' => 'required'
         ]);
 
         // if validasi gagal
@@ -25,10 +26,11 @@ class RegisterController extends Controller
 
         // Create User
         $user = UserModel::create([
-            'username' => $request->input('username'),
-            'nama' => $request->input('nama'),
+            'username' => $request->username,
+            'nama' => $request->nama,
             'password' => bcrypt($request->input('password')),
-            'level_id' => $request->input('level_id'),
+            'level_id' => $request->level_id,
+            'image' => $request->image->hashName(),
         ]);
 
         // Return response JSON is created

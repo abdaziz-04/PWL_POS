@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\KategoriController;
 |
 */
 Route::post('/register', App\Http\Controllers\Api\RegisterController::class)->name('register');
+Route::post('/register1', App\Http\Controllers\Api\RegisterController::class)->name('register1');
 Route::post('/login', App\Http\Controllers\Api\LoginController::class)->name('login');
 Route::post('/logout', App\Http\Controllers\Api\LogoutController::class)->name('logout');
 
@@ -33,6 +34,5 @@ Route::resource('levels', LevelController::class); // Saya menggunakan Route::re
 
 // !Tugas
 Route::resource('users', UserController::class);
-
 Route::resource('barang', BarangController::class);
 Route::resource('kategori', KategoriController::class);

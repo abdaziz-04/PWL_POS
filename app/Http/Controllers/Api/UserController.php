@@ -13,14 +13,20 @@ class UserController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $userData = UserModel::create($request->all());
-        $userData['password'] = bcrypt($request->password);
-        $user = UserModel::create($userData);
+{
+    // Mengambil data dari request
+    $userData = $request->all();
 
+    // Mengenkripsi password
+    $userData['password'] = bcrypt($request->password);
 
-        return response()->json($user, 201);
-    }
+    // Membuat instance UserModel dan menyimpannya
+    $user = UserModel::create($userData);
+
+    // Memberikan respons JSON
+    return response()->json($user, 201);
+}
+
 
     public function show(UserModel $user)
     {

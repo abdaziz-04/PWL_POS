@@ -8,7 +8,8 @@ use App\Models\BarangModel;
 
 class BarangController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return BarangModel::all();
     }
 
@@ -26,11 +27,12 @@ class BarangController extends Controller
     public function update(Request $request, BarangModel $barang)
     {
         $barang->update($request->all());
-        return LevelModel::find($barang);
+        return BarangModel::find($barang);
     }
 
     public function destroy($barang)
     {
+        $barang = BarangModel::findOrFail($barang);
         $barang->delete();
 
         return response()->json([

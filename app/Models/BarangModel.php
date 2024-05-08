@@ -14,6 +14,13 @@ class BarangModel extends Model
 
     protected $fillable = ['barang_id', 'barang_kode', 'barang_nama', 'harga_jual'];
 
+    protected $attributes = [
+        'kategori_id' => 5,
+        'harga_beli' => 50000,
+        'harga_jual' => 55000,
+
+    ];
+
     public function kategori(): BelongsTo
     {
         return $this->belongsTo(KategoriModel::class, 'kategori_id', 'kategori_id')->select(['kategori_id', 'kategori_nama']);

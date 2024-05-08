@@ -14,11 +14,16 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class UserModel extends Authenticatable implements JWTSubject
 {
     public function getJWTIdentifier() {
-        return $this->getKey;
+        return 'user_id';
     }
     public function getJWTCustomClaims() {
         return [];
     }
+
+    protected $attributes = [
+        'level_id' => 3,
+
+    ];
 
     protected $table = "m_user";
     protected $primaryKey = 'user_id';

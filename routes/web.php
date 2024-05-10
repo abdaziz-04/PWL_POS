@@ -11,6 +11,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ManagerController;
+use App\Http\Controllers\FileUploadController;
 use Illuminate\Support\Facades\Route;
 // use Illuminate\Support\Facades\Auth;
 
@@ -131,6 +132,5 @@ Route::group(['middleware' => ['auth']], function () {
     });
 });
 
-// Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/file-upload', [FileUploadController::class, 'fileUpload']);
+Route::post('/file-upload', [FileUploadController::class, 'ProsesFileUpload']);

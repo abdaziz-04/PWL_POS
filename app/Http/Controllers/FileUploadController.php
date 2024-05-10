@@ -15,19 +15,11 @@ class FileUploadController extends Controller
         $request->validate([
             'berkas'=>'required|file|image|max:5000',]);
 
-        $path = $request->berkas->store('uploads');
+        // $path = $request->berkas->store('uploads'); // Method store akan menyimpan file dengan nama acak
+
+        $namaFile = $request->berkas->getClientOriginalName();
+        $path = $request->berkas->storeAs('uploads', $namaFile); //  Method getClientOriginalName() akan menyimpan file dengan nama file original
         echo "Berhasil upload, file berada di: $path";
         // echo $request->berkas->getClientOriginalName()."Lolos validasi";
-
-        if ($request->hasFile("berkas")) {
-            echo "path(): " . $request->berkas->path() . "<br>";
-            echo "extension(): " . $request->berkas->extension() . "<br>";
-            echo "getClientOriginalExtension(): " . $request->berkas->getClientOriginalExtension() . "<br>";
-            echo "getMimeType(): " . $request->berkas->getMimeType() . "<br>";
-            echo "getClientOriginalName(): " . $request->berkas->getClientOriginalName() . "<br>";
-            echo "getSize(): " . $request->berkas->getSize();
-        } else {
-            echo "Tidak ada berkas yang diupload";
-        }
     }
 }

@@ -56,6 +56,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/{id}/edit', [UserController::class, 'edit']); // Edit data user
     Route::put('/{id}', [UserController::class, 'update']); // Simpan perubahan data user
     Route::delete('/{id}', [UserController::class, 'destroy']); // Hapus data user
+    Route::post('/upload-image', [UserController::class, 'uploadImage']);
     Route::get('/test', [UserController::class, 'db_test']);
 });
 
@@ -137,3 +138,5 @@ Route::post('/file-upload', [FileUploadController::class, 'ProsesFileUpload']);
 
 Route::get('/file-upload-tugas', [FileUploadController::class, 'fileUpload2']);
 Route::post('/file-upload-tugas', [FileUploadController::class, 'ProsesFileUpload2']);
+
+

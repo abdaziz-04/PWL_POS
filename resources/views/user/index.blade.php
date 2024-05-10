@@ -35,6 +35,7 @@
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Gambar</th>
                         <th>Username</th>
                         <th>Nama</th>
                         <th>Level Pengguna</th>
@@ -46,51 +47,70 @@
     </div>
 @endsection
 
-@push('css')
-@endpush
-
 @push('js')
     <script>
         $(document).ready(function() {
-            var dataUser = $('#table_user').DataTable({
-                serverSide: true, // serverSide: true, jika ingin menggunakan server side processing
+            var tableUser = $('#table_user').DataTable({
+                serverSide: true,
                 ajax: {
-                    "url": "{{ url('user/list') }}",
-                    "dataType": "json",
-                    "type": "POST",
-                    "data": function(d) {
+                    url: "{{ url('user/list') }}",
+                    dataType: "json",
+                    type: "POST",
+                    data: function(d) {
                         d.level_id = $('#level_id').val();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("AJAX Error:", xhr.responseText);
+                        // Display a meaningful error message to the user
+                        alert("An error occurred while loading data. Please try again later.");
                     }
                 },
-                columns: [{
-                    data: "DT_RowIndex", // nomor urut dari laravel datatable addIndexColumn()
-                    className: "text-center",
-                    orderable: false,
-                    searchable: false
-                }, {
-                    data: "username",
-                    className: "",
-                    orderable: true, // orderable: true, jika ingin kolom ini bisa diurutkan
-                    searchable: true // searchable: true, jika ingin kolom ini bisa dicari
-                }, {
-                    data: "nama",
-                    className: "",
-                    orderable: true, // orderable: true, jika ingin kolom ini bisa diurutkan
-                    searchable: true // searchable: true, jika ingin kolom ini bisa dicari
-                }, {
-                    data: "level.level_nama",
-                    className: "",
-                    orderable: false, // orderable: true, jika ingin kolom ini bisa diurutkan
-                    searchable: false // searchable: true, jika ingin kolom ini bisa dicari
-                }, {
-                    data: "aksi",
-                    className: "",
-                    orderable: false, // orderable: true, jika ingin kolom ini bisa diurutkan
-                    searchable: false // searchable: true, jika ingin kolom ini bisa dicari
-                }]
+                columns: [
+                    {
+                        data: "DT_RowIndex",
+                        className: "text-center",
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: "image",
+                        className: "text-center",
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, full, meta) {
+                            return data ? '<img src="{{ asset('/storage/gambar/') }}/' + data + '" style="object-fit: cover; width: 100px; height: 100px;" />' : '';
+                        }
+
+                    },
+                    {
+                        data: "username",
+                        className: "",
+                        orderable: true,
+                        searchable: true
+                    },
+                    {
+                        data: "nama",
+                        className: "",
+                        orderable: true,
+                        searchable: true
+                    },
+                    {
+                        data: "level.level_nama",
+                        className: "",
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: "aksi",
+                        className: "",
+                        orderable: false,
+                        searchable: false
+                    }
+                ]
             });
+
             $('#level_id').on('change', function() {
-                dataUser.ajax.reload();
+                tableUser.ajax.reload();
             });
         });
     </script>

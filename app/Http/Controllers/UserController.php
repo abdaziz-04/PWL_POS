@@ -46,7 +46,7 @@ class UserController extends Controller
 
     public function list(Request $request)
     {
-        $users = UserModel::select('user_id', 'username', 'nama', 'level_id')->with('level');
+        $users = UserModel::select('user_id', 'username', 'nama', 'level_id', 'image')->with('level');
 
         //Filter data user berdasarkan level_id
         if ($request->level_id) {
@@ -67,6 +67,7 @@ class UserController extends Controller
             ->make(true);
     }
 
+
     public function create()
     {
         $breadcrumb = (object) [
@@ -85,23 +86,36 @@ class UserController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'username' => 'required|string|min:3|unique:m_user,username',
-            'nama' => 'required|string|max:100',
-            'password' => 'required|min:5',
-            'level_id' => 'required|integer',
-        ]);
+{
+    $request->validate([
+        'username' => 'required|string|min:3|unique:m_user,username',
+        'nama' => 'required|string|max:100',
+        'password' => 'required|min:5',
+        'level_id' => 'required|integer',
+        'image' => 'required|image|max:5000', // Maximum file size of 5MB
+    ]);
+
+    if ($request->file('image')->isValid()) {
+        // Generate unique filename
+        $filename = $request->username . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
+
+        $imagePath = $request->file('image')->storeAs('public/gambar', $filename);
 
         UserModel::create([
             'username' => $request->username,
             'nama' => $request->nama,
             'password' => bcrypt($request->password),
-            'level_id' => $request->level_id
+            'level_id' => $request->level_id,
+            'image' => $filename, // Save the filename in the database
         ]);
 
         return redirect('/user')->with('success', 'Data user berhasil disimpan');
+    } else {
+        return redirect()->back()->with('error', 'File upload error');
     }
+}
+
+
 
     public function show(string $id)
     {

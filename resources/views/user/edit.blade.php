@@ -33,6 +33,17 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label class="col-1 control-label col-form-label">Gambar</label>
+                        <div class="col-11">
+                            <img src="{{ asset('storage/gambar/' . $user->image) }}" alt="Gambar Pengguna" width="100" height="100">
+                            <input type="file" class="form-control-file mt-2" id="image" name="image">
+                            @error('image')
+                                <small class="form-text text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                         <label class="col-1 control-label col-form-label">Username</label>
                         <div class="col-11">
                             <input type="text" class="form-control" id="username" name="username"

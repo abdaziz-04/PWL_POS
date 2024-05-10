@@ -37,9 +37,11 @@
                         <div class="col-11">
                             <img src="{{ asset('storage/gambar/' . $user->image) }}" alt="Gambar Pengguna" width="100" height="100">
                             <input type="file" class="form-control-file mt-2" id="image" name="image">
-                            @error('image')
-                                <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
+                            @if ($errors->has('image'))
+                                <small class="form-text text-danger">{{ $errors->first('image') }}</small>
+                            @else
+                                <small class="form-text text-muted">Abaikan jika tidak ingin mengubah gambar.</small>
+                            @endif
                         </div>
                     </div>
 

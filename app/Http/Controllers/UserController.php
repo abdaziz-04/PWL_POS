@@ -86,34 +86,34 @@ class UserController extends Controller
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'username' => 'required|string|min:3|unique:m_user,username',
-        'nama' => 'required|string|max:100',
-        'password' => 'required|min:5',
-        'level_id' => 'required|integer',
-        'image' => 'required|image|max:5000', // Maximum file size of 5MB
-    ]);
-
-    if ($request->file('image')->isValid()) {
-        // Generate unique filename
-        $filename = $request->username . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
-
-        $imagePath = $request->file('image')->storeAs('public/gambar', $filename);
-
-        UserModel::create([
-            'username' => $request->username,
-            'nama' => $request->nama,
-            'password' => bcrypt($request->password),
-            'level_id' => $request->level_id,
-            'image' => $filename, // Save the filename in the database
+    {
+        $request->validate([
+            'username' => 'required|string|min:3|unique:m_user,username',
+            'nama' => 'required|string|max:100',
+            'password' => 'required|min:5',
+            'level_id' => 'required|integer',
+            'image' => 'required|image',
         ]);
 
-        return redirect('/user')->with('success', 'Data user berhasil disimpan');
-    } else {
-        return redirect()->back()->with('error', 'File upload error');
+        if ($request->file('image')->isValid()) {
+            // Generate unique filename
+            $filename = $request->username . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
+
+            $imagePath = $request->file('image')->storeAs('public/gambar', $filename);
+
+            UserModel::create([
+                'username' => $request->username,
+                'nama' => $request->nama,
+                'password' => bcrypt($request->password),
+                'level_id' => $request->level_id,
+                'image' => $filename, // Save the filename in the database
+            ]);
+
+            return redirect('/user')->with('success', 'Data user berhasil disimpan');
+        } else {
+            return redirect()->back()->with('error', 'File upload error');
+        }
     }
-}
 
 
 
@@ -136,58 +136,57 @@ class UserController extends Controller
     }
 
     public function edit(string $id)
-{
-    $user = UserModel::find($id);
-    $level = LevelModel::all();
+    {
+        $user = UserModel::find($id);
+        $level = LevelModel::all();
 
-    $breadcrumb = (object) [
-        'title' => 'Edit User',
-        'list' => ['Home', 'User', 'Edit']
-    ];
+        $breadcrumb = (object) [
+            'title' => 'Edit User',
+            'list' => ['Home', 'User', 'Edit']
+        ];
 
-    $page = (object) [
-        'title' => 'Edit user'
-    ];
+        $page = (object) [
+            'title' => 'Edit user'
+        ];
 
-    $activeMenu = 'user';
+        $activeMenu = 'user';
 
-    return view('user.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'level' => $level, 'activeMenu' => $activeMenu]);
-}
-
-public function update(Request $request, string $id)
-{
-    $request->validate([
-        'username' => 'required|string|min:3|unique:m_user,username,' . $id . ',user_id',
-        'nama' => 'required|string|max:100',
-        'password' => 'nullable|min:5',
-        'level_id' => 'required|integer',
-        'image' => 'nullable|image|max:5000',
-    ]);
-
-    $userData = [
-        'username' => $request->username,
-        'nama' => $request->nama,
-        'password' => $request->password ? bcrypt($request->password) : UserModel::find($id)->password,
-        'level_id' => $request->level_id
-    ];
-
-    // cek apakah ada gambar baru diupload
-    if ($request->hasFile('image') && $request->file('image')->isValid()) {
-        // Generate unique filename
-        $filename = $request->username . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
-
-        // Handle file upload
-        $imagePath = $request->file('image')->storeAs('public/gambar', $filename);
-
-        // Update image path di user data
-        $userData['image'] = $filename;
+        return view('user.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'level' => $level, 'activeMenu' => $activeMenu]);
     }
 
-    UserModel::find($id)->update($userData);
+    public function update(Request $request, string $id)
+    {
+        $request->validate([
+            'username' => 'required|string|min:3|unique:m_user,username,' . $id . ',user_id',
+            'nama' => 'required|string|max:100',
+            'password' => 'nullable|min:5',
+            'level_id' => 'required|integer',
+            'image' => 'nullable|image', // Ubah validasi menjadi nullable untuk mengizinkan pembaruan tanpa mengunggah gambar baru
+        ]);
 
-    return redirect('/user')->with('success', 'Data user berhasil diubah');
-}
+        $userData = [
+            'username' => $request->username,
+            'nama' => $request->nama,
+            'password' => $request->password ? bcrypt($request->password) : UserModel::find($id)->password,
+            'level_id' => $request->level_id
+        ];
 
+        // cek apakah ada gambar baru diupload
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            // Generate unique filename
+            $filename = $request->username . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
+
+            // Handle file upload
+            $imagePath = $request->file('image')->storeAs('public/gambar', $filename);
+
+            // Update image path di user data
+            $userData['image'] = $filename;
+        }
+
+        UserModel::find($id)->update($userData);
+
+        return redirect('/user')->with('success', 'Data user berhasil diubah');
+    }
 
     public function destroy(string $id)
     {

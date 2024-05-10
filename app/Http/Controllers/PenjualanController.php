@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\KategoriModel;
-use App\Models\SalesModel;
-use App\Models\SalesDetailModel;
+use App\Models\TransaksiPenjualanModel;
 use Illuminate\Http\Request;
 use App\Models\BarangModel;
+use App\Models\DetailTransaksiPenjualanModel;
 use App\Models\UserModel;
 use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
-use DataTables;
 
-class SalesController extends Controller
+class PenjualanController extends Controller
 {
     public function index()
     {
@@ -23,15 +23,15 @@ class SalesController extends Controller
         $page = (object) [
             'title' => 'Daftar transaksi penjualan yang terdaftar dalam sistem'
         ];
-        $activeMenu = 'penjualan'; // set menu yang sedang aktif
+        $activeMenu = 'penjualan';
 
-        $user = UserModel::all();     //ambil data level untuk filter level
-        return view('sales.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
+        $user = UserModel::all();
+        return view('transaksi.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
     }
 
     public function list(Request $request)
     {
-        $penjualans = SalesModel::select('penjualan_id', 'user_id', 'pembeli', 'penjualan_kode', 'penjualan_tanggal')->with('user');
+        $penjualans = TransaksiPenjualanModel::select('penjualan_id', 'user_id', 'pembeli', 'penjualan_kode', 'penjualan_tanggal')->with('user');
 
         if ($request->user_id) {
             $penjualans->where('user_id', $request->user_id);
@@ -62,7 +62,7 @@ class SalesController extends Controller
         $user = UserModel::all();
         $barang = BarangModel::all();
         $activeMenu = 'penjualan';
-        return view('sales.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'barang' => $barang, 'activeMenu' => $activeMenu]);
+        return view('transaksi.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'barang' => $barang, 'activeMenu' => $activeMenu]);
     }
 
     public function store(Request $request)
@@ -74,14 +74,14 @@ class SalesController extends Controller
         $request->validate([
             'user_id' => 'required|integer',
             'pembeli' => 'required|string|max:50',
-            'penjualan_kode' => 'required|string|max:20|unique:sales,penjualan_kode',
+            'penjualan_kode' => 'required|string|max:20|unique:t_penjualan,penjualan_kode',
             'penjualan_tanggal' => 'required|date_format:Y-m-d H:i:s',
             'barang_id' => 'required|integer',
             'harga' => 'required|integer',
             'jumlah' => 'required|integer'
         ]);
 
-        $transaksiPenjualan = SalesModel::create([
+        $transaksiPenjualan = TransaksiPenjualanModel::create([
             'user_id' => $request->user_id,
             'pembeli' => $request->pembeli,
             'penjualan_kode' => $request->penjualan_kode,
@@ -90,7 +90,7 @@ class SalesController extends Controller
 
         $penjualanId = $transaksiPenjualan->penjualan_id;
 
-        SalesDetailModel::create([
+        DetailTransaksiPenjualanModel::create([
             'penjualan_id' => $penjualanId,
             'barang_id' => $request->barang_id,
             'harga' => $request->harga,
@@ -103,8 +103,8 @@ class SalesController extends Controller
 
     public function show(String $id)
     {
-        $penjualan = SalesModel::find($id);
-        $detailTransaksi = SalesDetailModel::where('penjualan_id', $id)->get();
+        $penjualan = TransaksiPenjualanModel::find($id);
+        $detailTransaksi = DetailTransaksiPenjualanModel::where('penjualan_id', $id)->get();
 
         $breadcrumb = (object) [
             'title' => 'Detail Transaksi Penjualan',
@@ -117,7 +117,7 @@ class SalesController extends Controller
 
         $activeMenu = 'penjualan';
 
-        return view('sales.show', [
+        return view('transaksi.show', [
             'breadcrumb' => $breadcrumb,
             'page'       => $page,
             'penjualan' => $penjualan,
@@ -129,8 +129,8 @@ class SalesController extends Controller
 
     public function edit($id)
     {
-        $penjualan = SalesModel::find($id);
-        $detailPenjualan = SalesDetailModel::where('penjualan_id', $id)->first();
+        $penjualan = TransaksiPenjualanModel::find($id);
+        $detailPenjualan = DetailTransaksiPenjualanModel::where('penjualan_id', $id)->first();
         $user = UserModel::all();
         $barang = BarangModel::all();
 
@@ -145,7 +145,7 @@ class SalesController extends Controller
 
         $activeMenu = 'penjualan';
 
-        return view('sales.edit', [
+        return view('transaksi.edit', [
             'penjualan' => $penjualan,
             'detailPenjualan' => $detailPenjualan,
             'user' => $user,
@@ -161,16 +161,16 @@ class SalesController extends Controller
         $request->validate([
             'user_id' => 'required|integer',
             'pembeli' => 'required|string|max:255',
-            'penjualan_kode' => 'required|string|max:255|unique:sales,penjualan_kode,' . $id . ',penjualan_id',
+            'penjualan_kode' => 'required|string|max:255|unique:t_penjualan,penjualan_kode,' . $id . ',penjualan_id',
             'penjualan_tanggal' => 'required|date_format:Y-m-d\TH:i',
             'barang_id' => 'required|integer',
             'harga' => 'required|numeric',
             'jumlah' => 'required|integer'
         ]);
 
-        $penjualan = SalesModel::find($id);
+        $penjualan = TransaksiPenjualanModel::find($id);
         if (!$penjualan) {
-            return redirect('/sales')->with('error', 'Data penjualan tidak ditemukan');
+            return redirect('/penjualan')->with('error', 'Data penjualan tidak ditemukan');
         }
 
         $penjualan->user_id = $request->user_id;
@@ -179,7 +179,7 @@ class SalesController extends Controller
         $penjualan->penjualan_tanggal = $request->penjualan_tanggal;
         $penjualan->save();
 
-        $detailPenjualan = SalesDetailModel::where('penjualan_id', $id)->first();
+        $detailPenjualan = DetailTransaksiPenjualanModel::where('penjualan_id', $id)->first();
         $detailPenjualan->barang_id = $request->barang_id;
         $detailPenjualan->harga = $request->harga;
         $detailPenjualan->jumlah = $request->jumlah;
@@ -190,13 +190,13 @@ class SalesController extends Controller
 
     public function destroy(string $id)
     {
-        $penjualan = SalesModel::find($id);
+        $penjualan = TransaksiPenjualanModel::find($id);
         if (!$penjualan) {
             return redirect('/sales')->with('error', 'Data penjualan tidak ditemukan');
         }
 
         try {
-            SalesDetailModel::where('penjualan_id', $id)->delete();
+            DetailTransaksiPenjualanModel::where('penjualan_id', $id)->delete();
             $penjualan->delete();
 
             return redirect('/sales')->with('success', 'Data penjualan berhasil dihapus');

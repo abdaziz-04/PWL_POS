@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 
-class SalesDetailModel extends Model
+class DetailTransaksiPenjualanModel extends Model
 {
     use HasFactory;
 
-    protected $table = 't_penjualan_detail'; //mendefiniskan nama tabel yang digunakan oleh model ini
-    protected $primaryKey = 'penjualan_id'; //mendefiniskan primary key dari tabel yang digunakan
+    protected $table = 't_penjualan_detail';
+    protected $primaryKey = 'penjualan_id';
 
     protected $fillable = ['penjualan_id','barang_id','harga','jumlah'];
 

@@ -4,16 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class SalesModel extends Model
+
+class TransaksiPenjualanModel extends Model
 {
     use HasFactory;
 
-    protected $table = 't_penjualan'; //mendefiniskan nama tabel yang digunakan oleh model ini
-    protected $primaryKey = 'penjualan_id'; //mendefiniskan primary key dari tabel yang digunakan
+    protected $table = 't_penjualan';
+    protected $primaryKey = 'penjualan_id';
 
-    protected $fillable = ['user_id','pembeli','penjualan_kode','penjualan_tanggal'];
+    protected $guarded = [
+        'penjualan_id'
+    ];
 
     public function user(): BelongsTo
     {

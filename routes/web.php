@@ -5,7 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\POSController;
 use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\SalesController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
@@ -101,14 +101,14 @@ Route::group(['prefix' => 'stok'], function () {
 
 // CRUD Sales
 Route::group(['prefix' => 'sales'], function () {
-    Route::get('/', [SalesController::class, 'index']);
-    Route::post('/list', [SalesController::class, 'list']);
-    Route::get('/create', [SalesController::class, 'create']);
-    Route::post('/', [SalesController::class, 'store']);
-    Route::get('/{id}', [SalesController::class, 'show']);
-    Route::get('/{id}/edit', [SalesController::class, 'edit']);
-    Route::put('/{id}', [SalesController::class, 'update']);
-    Route::delete('/{id}', [SalesController::class, 'destroy']);
+    Route::get('/', [PenjualanController::class, 'index']);
+    Route::post('/list', [PenjualanController::class, 'list']);
+    Route::get('/create', [PenjualanController::class, 'create']);
+    Route::post('/', [PenjualanController::class, 'store']);
+    Route::get('/{id}', [PenjualanController::class, 'show']);
+    Route::get('/{id}/edit', [PenjualanController::class, 'edit']);
+    Route::put('/{id}', [PenjualanController::class, 'update']);
+    Route::delete('/{id}', [PenjualanController::class, 'destroy']);
 });
 
 // JS 9

@@ -19,6 +19,16 @@
                         <td>{{ $user->user_id }}</td>
                     </tr>
                     <tr>
+                        <th>Gambar</th>
+                        <td>
+                            @if($user->image)
+                                <img src="{{ asset('/storage/gambar/' . $user->image) }}" width="100" height="100" alt="Gambar Pengguna">
+                            @else
+                                <p>Tidak ada gambar</p>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
                         <th>Level</th>
                         <td>{{ $user->level->level_nama }}</td>
                     </tr>

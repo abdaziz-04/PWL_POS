@@ -17,9 +17,14 @@ class FileUploadController extends Controller
 
         // $path = $request->berkas->store('uploads'); // Method store akan menyimpan file dengan nama acak
 
-        $namaFile = $request->berkas->getClientOriginalName();
-        $path = $request->berkas->storeAs('uploads', $namaFile); //  Method getClientOriginalName() akan menyimpan file dengan nama file original
+        $extFile  = $request->berkas->getClientOriginalExtension();
+        $namaFile = 'web-' .time(). "." .$extFile;
+        $path = $request->berkas->storeAs('public', $namaFile); //  Method getClientOriginalName() akan menyimpan file dengan nama file original
+        $pathBaru = asset('storage/'.$namaFile);
+
         echo "Berhasil upload, file berada di: $path";
+        echo "<br>";
+        echo "Tampilkan link:<a href='$pathBaru'>$pathBaru</a>";
         // echo $request->berkas->getClientOriginalName()."Lolos validasi";
     }
 }

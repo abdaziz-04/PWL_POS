@@ -7,6 +7,7 @@ use App\Models\KategoriModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -174,7 +175,7 @@ class ProductController extends Controller
 
             // Hapus gambar lama jika ada
             if ($barang->image) {
-                Storage::delete('public/gambar/' . $barang->image);
+                Storage::delete('public/gambar/barang' . $barang->image);
             }
 
             // Simpan nama file gambar baru di database
@@ -197,7 +198,10 @@ class ProductController extends Controller
 
         try {
             BarangModel::destroy($id);    //Hapus data level
-
+            // Hapus gambar
+            if ($check->image) {
+                Storage::delete('public/gambar/barang/' . $check->image);
+            }
             return redirect('/barang')->with('success', 'Data barang berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) {
 

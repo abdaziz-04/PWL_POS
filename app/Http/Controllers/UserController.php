@@ -7,6 +7,7 @@ use App\Models\LevelModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Storage;
 
 
 class UserController extends Controller
@@ -96,7 +97,7 @@ class UserController extends Controller
         ]);
 
         if ($request->file('image')->isValid()) {
-            // Generate unique filename
+
             $filename = $request->username . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
 
             $imagePath = $request->file('image')->storeAs('public/gambar', $filename);
@@ -106,7 +107,7 @@ class UserController extends Controller
                 'nama' => $request->nama,
                 'password' => bcrypt($request->password),
                 'level_id' => $request->level_id,
-                'image' => $filename, // Save the filename in the database
+                'image' => $filename,
             ]);
 
             return redirect('/user')->with('success', 'Data user berhasil disimpan');
@@ -114,8 +115,6 @@ class UserController extends Controller
             return redirect()->back()->with('error', 'File upload error');
         }
     }
-
-
 
     public function show(string $id)
     {
@@ -161,29 +160,44 @@ class UserController extends Controller
             'nama' => 'required|string|max:100',
             'password' => 'nullable|min:5',
             'level_id' => 'required|integer',
-            'image' => 'nullable|image', // Ubah validasi menjadi nullable untuk mengizinkan pembaruan tanpa mengunggah gambar baru
+            'image' => 'nullable|image',
         ]);
 
-        $userData = [
-            'username' => $request->username,
-            'nama' => $request->nama,
-            'password' => $request->password ? bcrypt($request->password) : UserModel::find($id)->password,
-            'level_id' => $request->level_id
-        ];
+        // Dapatkan data pengguna yang ada
+        $user = UserModel::find($id);
 
-        // cek apakah ada gambar baru diupload
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            // Generate unique filename
-            $filename = $request->username . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
-
-            // Handle file upload
-            $imagePath = $request->file('image')->storeAs('public/gambar', $filename);
-
-            // Update image path di user data
-            $userData['image'] = $filename;
+        // Jika data pengguna tidak ditemukan, kembalikan respons yang sesuai
+        if (!$user) {
+            return redirect()->back()->with('error', 'Data user tidak ditemukan');
         }
 
-        UserModel::find($id)->update($userData);
+        // Update data pengguna yang ada
+        $user->username = $request->username;
+        $user->nama = $request->nama;
+        $user->level_id = $request->level_id;
+
+        // Periksa apakah ada kata sandi baru yang diberikan
+        if ($request->password) {
+            $user->password = bcrypt($request->password);
+        }
+
+        // Periksa apakah ada gambar baru yang diunggah
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            // Simpan gambar baru
+            $filename = $request->username . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
+            $imagePath = $request->file('image')->storeAs('public/gambar', $filename);
+
+            // Hapus gambar lama jika ada
+            if ($user->image) {
+                Storage::delete('public/gambar/' . $user->image);
+            }
+
+            // Simpan nama file gambar baru di database
+            $user->image = $filename;
+        }
+
+        // Simpan perubahan pada data pengguna
+        $user->save();
 
         return redirect('/user')->with('success', 'Data user berhasil diubah');
     }
@@ -197,8 +211,13 @@ class UserController extends Controller
 
         try {
             UserModel::destroy($id);
-
+            // Hapus gambar
+            if ($user->image) {
+                Storage::delete('public/gambar/' . $user->image);
+            }
+            // Hapus data
             return redirect('/user')->with('success', 'Data user berhasil dihapus');
+
         } catch (\illuminate\Database\QueryException $e) {
             return redirect('/user')->with('error' . 'Data user gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
         }

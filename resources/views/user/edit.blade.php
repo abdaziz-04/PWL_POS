@@ -14,7 +14,7 @@
                 </div>
                 <a href="{{ url('user') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
             @else
-                <form method="POST" action="{{ url('/user/' . $user->user_id) }}" class="form-horizontal">
+                <form method="POST" action="{{ url('/user/' . $user->user_id) }}" class="form-horizontal" enctype="multipart/form-data">
                     @csrf
                     {!! method_field('PUT') !!} <!-- tambahkan baris ini untuk proses edit yang butuh method PUT -->
                     <div class="form-group row">
@@ -35,7 +35,7 @@
                     <div class="form-group row">
                         <label class="col-1 control-label col-form-label">Gambar</label>
                         <div class="col-11">
-                            <img src="{{ asset('storage/gambar/' . $user->image) }}" alt="Gambar Pengguna" width="100" height="100">
+                            <img src="{{ asset('storage/gambar/' . $user->image) }}" alt="Gambar Pengguna" style="object-fit: cover; width: 300px; height: 300px;">
                             <input type="file" class="form-control-file mt-2" id="image" name="image">
                             @if ($errors->has('image'))
                                 <small class="form-text text-danger">{{ $errors->first('image') }}</small>

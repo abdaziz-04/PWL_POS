@@ -78,7 +78,7 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, full, meta) {
-                            return data ? '<img src="{{ asset('/storage/gambar/') }}/' + data + '" style="object-fit: cover; width: 100px; height: 100px;" />' : '';
+                            return data ? '<img src="{{ asset('/storage/gambar/') }}/' + data + '" style="object-fit: cover; width: 100px; height: 150px;" />' : '';
                         }
 
                     },

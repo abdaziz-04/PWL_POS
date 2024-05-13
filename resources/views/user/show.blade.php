@@ -22,7 +22,7 @@
                         <th>Gambar</th>
                         <td>
                             @if($user->image)
-                                <img src="{{ asset('/storage/gambar/' . $user->image) }}" style="object-fit: cover; width: 200px; height: 250px; alt="Gambar Pengguna">
+                                <img src="{{ asset('/storage/gambar/user/' . $user->image) }}" style="object-fit: cover; width: 200px; height: 250px; alt="Gambar Pengguna">
                             @else
                                 <p>Tidak ada gambar</p>
                             @endif

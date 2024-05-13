@@ -35,7 +35,7 @@
                     <div class="form-group row">
                         <label class="col-1 control-label col-form-label">Gambar</label>
                         <div class="col-11">
-                            <img src="{{ $user->image ? asset('storage/gambar/' . $user->image) : 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg' }}" alt="{{ $user->image ? 'Gambar Pengguna' : 'No Image Available' }}" style="object-fit: cover; width: 300px; height: 300px;">
+                            <img src="{{ $user->image ? asset('storage/gambar/user/' . $user->image) : 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg' }}" alt="{{ $user->image ? 'Gambar Pengguna' : 'No Image Available' }}" style="object-fit: cover; width: 300px; height: 300px;">
                             <input type="file" class="form-control-file mt-2" id="image" name="image">
                             @if ($errors->has('image'))
                                 <small class="form-text text-danger">{{ $errors->first('image') }}</small>

@@ -79,7 +79,7 @@
                         searchable: false,
                         render: function(data, type, full, meta) {
                             if (data) {
-                                return '<img src="{{ asset('/storage/gambar/') }}/' + data + '" style="object-fit: cover; width: 150px; height: 150px;" />';
+                                return '<img src="{{ asset('/storage/gambar/user/') }}/' + data + '" style="object-fit: cover; width: 150px; height: 150px;" />';
                             } else {
                                 return '<img src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg" style="object-fit: cover; width: 150px; height: 150px;" />';
                             }

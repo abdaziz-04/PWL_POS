@@ -100,7 +100,7 @@ class UserController extends Controller
 
             $filename = $request->username . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
 
-            $imagePath = $request->file('image')->storeAs('public/gambar', $filename);
+            $imagePath = $request->file('image')->storeAs('public/gambar/user/', $filename);
 
             UserModel::create([
                 'username' => $request->username,
@@ -185,11 +185,11 @@ class UserController extends Controller
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             // Simpan gambar baru
             $filename = $request->username . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
-            $imagePath = $request->file('image')->storeAs('public/gambar', $filename);
+            $imagePath = $request->file('image')->storeAs('public/gambar/user/', $filename);
 
             // Hapus gambar lama jika ada
             if ($user->image) {
-                Storage::delete('public/gambar/' . $user->image);
+                Storage::delete('public/gambar/user/' . $user->image);
             }
 
             // Simpan nama file gambar baru di database
@@ -213,7 +213,7 @@ class UserController extends Controller
             UserModel::destroy($id);
             // Hapus gambar
             if ($check->image) {
-                Storage::delete('public/gambar/' . $check->image);
+                Storage::delete('public/gambar/user/' . $check->image);
             }
             // Hapus data
             return redirect('/user')->with('success', 'Data user berhasil dihapus');

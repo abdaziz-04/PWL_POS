@@ -32,7 +32,7 @@ class ProductController extends Controller
 
     public function list(Request $request)
     {
-        $barangs = BarangModel::select('barang_id', 'kategori_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual')
+        $barangs = BarangModel::select('barang_id', 'kategori_id', 'barang_kode', 'barang_nama', 'harga_beli', 'harga_jual', 'image')
             ->with('kategori');
 
         // Filter data barang berdasarkan kategori_id
@@ -81,15 +81,20 @@ class ProductController extends Controller
             'barang_nama' => 'required|string|max:100|unique:m_barang,barang_nama',
             'harga_beli'     => 'required|integer',
             'harga_jual'     => 'required|integer',
-            'kategori_id' => 'required|integer'
+            'kategori_id' => 'required|integer',
+            'image' => 'required|image'
         ]);
+
+        $filename = $request->barang_kode . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
+        $path = $request->file('image')->storeAs('public/gambar/barang', $filename);
 
         BarangModel::create([
             'barang_kode' => $request->barang_kode,
             'barang_nama' => $request->barang_nama,
             'harga_jual' => $request->harga_jual,
             'harga_beli' => $request->harga_beli,
-            'kategori_id' => $request->kategori_id
+            'kategori_id' => $request->kategori_id,
+            'image' => $filename
         ]);
         return redirect('/barang')->with('success', 'Data barang berhasil disimpan');
     }
@@ -144,19 +149,38 @@ class ProductController extends Controller
     {
         $request->validate([
             'barang_kode' => 'required|string|max:10',
-            'barang_nama' => 'required|string|max:100|unique:m_barang,barang_nama',
+            'barang_nama' => 'required|string|max:100|unique:m_barang,barang_nama,' . $id . ',barang_id',
             'harga_beli'     => 'required|integer',
             'harga_jual'     => 'required|integer',
-            'kategori_id' => 'required|integer'
+            'kategori_id' => 'required|integer',
+            'image' => 'nullable|image'
         ]);
 
-        BarangModel::find($id)->update([
-            'barang_kode' => $request->barang_kode,
-            'barang_nama' => $request->barang_nama,
-            'harga_jual' => $request->harga_jual,
-            'harga_beli' => $request->harga_beli,
-            'kategori_id' => $request->kategori_id
-        ]);
+            // Temukan data barang berdasarkan ID
+            $barang = BarangModel::find($id);
+
+            // Update atribut barang dengan data yang diterima dari request
+            $barang->barang_kode = $request->barang_kode;
+            $barang->barang_nama = $request->barang_nama;
+            $barang->harga_beli = $request->harga_beli;
+            $barang->harga_jual = $request->harga_jual;
+            $barang->kategori_id = $request->kategori_id;
+
+        // Periksa apakah ada gambar baru yang diunggah
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            // Simpan gambar baru
+            $filename = $request->barang_kode . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
+            $imagePath = $request->file('image')->storeAs('public/gambar/barang', $filename);
+
+            // Hapus gambar lama jika ada
+            if ($barang->image) {
+                Storage::delete('public/gambar/' . $barang->image);
+            }
+
+            // Simpan nama file gambar baru di database
+            $barang->image = $filename;
+        }
+        $barang->save();
 
         return redirect('/barang')->with('success', 'Data barang berhasil diubah');
     }

@@ -19,6 +19,16 @@
                         <td>{{ $barang->barang_id }}</td>
                     </tr>
                     <tr>
+                        <th>Gambar</th>
+                        <td>
+                            @if($barang->image)
+                                <img src="{{ asset('/storage/gambar/barang/' . $barang->image) }}" style="object-fit: cover; width: 300px; height: 300px; alt="Gambar Barang">
+                            @else
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg" style="object-fit: cover; width: 150px; height: 150px;" />
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
                         <th>Kategori</th>
                         <td>{{ $barang->kategori->kategori_nama }}</td>
                     </tr>

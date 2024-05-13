@@ -78,9 +78,12 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, full, meta) {
-                            return data ? '<img src="{{ asset('/storage/gambar/') }}/' + data + '" style="object-fit: cover; width: 100px; height: 150px;" />' : '';
+                            if (data) {
+                                return '<img src="{{ asset('/storage/gambar/') }}/' + data + '" style="object-fit: cover; width: 150px; height: 150px;" />';
+                            } else {
+                                return '<img src="https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg" style="object-fit: cover; width: 150px; height: 150px;" />';
+                            }
                         }
-
                     },
                     {
                         data: "username",

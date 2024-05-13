@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\KategoriModel;
 use DataTables;
+use Illuminate\Support\Facades\Storage;
 
 class KategoriController extends Controller
 {
@@ -13,10 +14,10 @@ class KategoriController extends Controller
     {
     try {
         // Coba panggil data dari tabel level menggunakan model LevelModel
-        $kategorii = kategori::all();
+        $kategori = kategori::all();
 
         // Jika berhasil dipanggil, tampilkan data
-        foreach ($kategorii as $kategori) {
+        foreach ($kategori as $kategori) {
             echo "ID: " . $kategori->kategori_id . ", Kode Kategori: " . $kategori->kategori_kode . ", Nama Kategori: " . $kategori->kategori_nama . "<br>";
         }
 
@@ -49,7 +50,7 @@ class KategoriController extends Controller
 
     public function list(Request $request)
         {
-            $kategori = KategoriModel::select('kategori_id', 'kategori_kode', 'kategori_nama');
+            $kategori = KategoriModel::select('kategori_id', 'kategori_kode', 'kategori_nama', 'image');
 
             if ($request->kategori_id) {
                 $kategori->where('kategori_id', $request->kategori_id);
@@ -92,17 +93,26 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-
             'kategori_kode' => 'bail|required|unique:m_kategori|max:255',
             'kategori_nama' => 'bail|required|max:255',
+            'image' => 'required|image'
 
         ]);
-        KategoriModel::create([
-            'kategori_kode' => $request->kategori_kode,
-            'kategori_nama' => $request->kategori_nama,
-        ]);
+        if ($request->file('image')->isValid()) {
 
-        return redirect('/kategori')->with('success', 'Data Kategori berhasil disimpan');;
+            $filename = $request->username . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
+
+            $imagePath = $request->file('image')->storeAs('public/gambar/kategori/', $filename);
+
+            KategoriModel::create([
+                'kategori_kode' => $request->kategori_kode,
+                'kategori_nama' => $request->kategori_nama,
+            ]);
+
+            return redirect('/kategori')->with('success', 'Data user berhasil disimpan');
+        } else {
+            return redirect()->back()->with('error', 'File upload error');
+        }
     }
 
     /**
@@ -152,16 +162,30 @@ class KategoriController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            //kategori kode harus diisi, berupa string, minimal 3 karakter,
-            //dan bernilai unik ditabel m_kategori kolom kategori kecuali untuk katgeori dengan id yang sedang diedit
             'kategori_kode' => 'bail|required|max:255',
             'kategori_nama' => 'bail|required|unique:m_kategori|max:255',
         ]);
 
-        KategoriModel::find($id)->update([
-            'kategori_kode' => $request->kategori_kode,
-            'kategori_nama' => $request->kategori_nama,
-        ]);
+        $kategori = KategoriModel::find($id);
+
+        $kategori->kategori_kode = $request->kategori_kode;
+        $kategori->kategori_nama = $request->kategori_nama;
+
+        // Periksa apakah ada gambar baru yang diunggah
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            // Simpan gambar baru
+            $filename = $request->barang_kode . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
+            $imagePath = $request->file('image')->storeAs('public/gambar/kategori', $filename);
+
+            // Hapus gambar lama jika ada
+            if ($kategori->image) {
+                Storage::delete('public/gambar/kategori' . $kategori->image);
+            }
+
+            // Simpan nama file gambar baru di database
+            $kategori->image = $filename;
+        }
+        $kategori->save();
 
         return redirect('/kategori')->with('success', 'Data berhasil diubah');
     }
@@ -172,13 +196,17 @@ class KategoriController extends Controller
     public function destroy(string $id)
     {
         $check = KategoriModel::find($id);
+
         if (!$check) {      //untuk mengecek apakah data user dengan id yang dimaksud ada atau tidak
             return redirect('/kategori')->with('error', 'Data tidak ditemukan');
         }
 
         try {
             KategoriModel::destroy($id);   //Hapus data level
-
+            // Hapus gambar
+            if ($check->image) {
+                Storage::delete('public/gambar/kategori/' . $check->image);
+            }
             return redirect('/kategori')->with('seccess', 'Data berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) {
 

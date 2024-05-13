@@ -213,7 +213,7 @@ class UserController extends Controller
             UserModel::destroy($id);
             // Hapus gambar
             if ($check->image) {
-                Storage::delete('public/gambar/user/' . $check->image);
+                Storage::delete('public/gambar/user' . $check->image);
             }
             // Hapus data
             return redirect('/user')->with('success', 'Data user berhasil dihapus');

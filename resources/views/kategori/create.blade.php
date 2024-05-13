@@ -7,7 +7,7 @@
         <h3 class="card-title">{{ $page->title }}</h3>
     </div>
     <div class="card-body">
-        <form method="POST" action="{{ url('kategori') }}" class="form-horizontal">
+        <form method="POST" action="{{ url('kategori') }}" class="form-horizontal" enctype="multipart/form-data">
             @csrf
             <div class="form-group row">
                 <label class="col-1 control-label col-form-label">Kode Kategori</label>
@@ -24,6 +24,15 @@
                     <input type="text" class="form-control" id="kategori_nama" name="kategori_nama" value="{{ old('kategori_nama') }}" required>
                     @error('kategori_nama')
                     <small class="form-text text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Gambar Kategori</label>
+                <div class="col-sm-10">
+                    <input type="file" class="form-control-file" name="image">
+                    @error('image')
+                        <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
             </div>

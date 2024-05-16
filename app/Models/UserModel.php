@@ -20,10 +20,6 @@ class UserModel extends Authenticatable implements JWTSubject
         return [];
     }
 
-    protected $attributes = [
-        'level_id' => 3,
-
-    ];
 
     protected $table = "m_user";
     protected $primaryKey = 'user_id';

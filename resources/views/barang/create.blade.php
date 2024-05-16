@@ -65,7 +65,7 @@
             </div>
 
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Gambar Profil</label>
+                <label class="col-sm-2 col-form-label">Gambar Barang</label>
                 <div class="col-sm-10">
                     <input type="file" class="form-control-file" name="image">
                     @error('image')

@@ -100,13 +100,14 @@ class KategoriController extends Controller
         ]);
         if ($request->file('image')->isValid()) {
 
-            $filename = $request->username . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
+            $filename = $request->kategori_kode . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
 
             $imagePath = $request->file('image')->storeAs('public/gambar/kategori/', $filename);
 
             KategoriModel::create([
                 'kategori_kode' => $request->kategori_kode,
                 'kategori_nama' => $request->kategori_nama,
+                'image' => $filename
             ]);
 
             return redirect('/kategori')->with('success', 'Data user berhasil disimpan');

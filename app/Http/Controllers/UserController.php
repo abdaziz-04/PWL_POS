@@ -96,8 +96,6 @@ class UserController extends Controller
             'image' => 'required|image',
         ]);
 
-        if ($request->file('image')->isValid()) {
-
             $filename = $request->username . '_' . time() . '.' . $request->file('image')->getClientOriginalExtension();
 
             $imagePath = $request->file('image')->storeAs('public/gambar/user/', $filename);
@@ -111,9 +109,6 @@ class UserController extends Controller
             ]);
 
             return redirect('/user')->with('success', 'Data user berhasil disimpan');
-        } else {
-            return redirect()->back()->with('error', 'File upload error');
-        }
     }
 
     public function show(string $id)
@@ -160,7 +155,7 @@ class UserController extends Controller
             'nama' => 'required|string|max:100',
             'password' => 'nullable|min:5',
             'level_id' => 'required|integer',
-            'image' => 'nullable|image',
+            'image' => 'nullable|image', // validasi gambar
         ]);
 
         // Dapatkan data pengguna yang ada
